@@ -1,13 +1,16 @@
 *** Settings ***
 Library           SeleniumLibrary
+Library    XML
 
 *** Variables ***
 ${URL}                            http://amanzon.com.br
 ${MENU_ESQUENTA_BLACK_FRIDAY}     //*[@id="nav-xshop"]/a[3]  
 ${TEXT_ESQUENTA_BLACK_FRIDAY}     //*[@id="grid-main-container"]/div[2]/span[1]/span/h4
-${FIST_PRODUCT}                   //*[@id="search"]/div[1]/div[1]/div/span[1]/div[1]/div[2]/div/div/div
+${FIST_PRODUCT}                   //*[@id="search"]/div[1]/div[1]/div/span[1]/div[1]/div[3]
 ${CATEGORIA}                      //*[@id="anonCarousel1"]/ol/li[2]/a/span[2]
-
+${PRDUTO_SELECIONADO}             //*[@id="search"]/div[1]/div[1]/div/span[1]/div[1]/div[2]/div/div/div
+${CARRINHO_VAZIO}                 //h2[contains(.,'Seu carrinho da Amazon está vazio')]
+${ESTOU_NO_CARRINHO}              //*[@id="sc-active-cart"]/div/div/div/h1
 
 *** Keywords ***
 
@@ -46,6 +49,22 @@ Clicar no botão de pesquisa
 
 Verificar o resultado da pesquisa se está listando o produto pesquisado
     Wait Until Element Is Visible   locator=${FIST_PRODUCT}
+
+Adicionar o produto "Console Xbox Series S" no carrinho
+    Click Element    locator=${PRDUTO_SELECIONADO}
+    Wait Until Element Is Visible   locator=productTitle   
+    Click Button    locator=add-to-cart-button
+
+Verificar se o produto "Console Xbox Series S" foi adicionado com sucesso
+    Click Element    locator=nav-cart-count
+    Element Should Be Visible    locator=activeCartViewForm 
+
+Remover o produto "Console Xbox Series S" do carrinho
+    Click Element    locator=//*[@id="a-autoid-4"]
+    #Click Element    locator=quantity_0
+#Verificar se o carrinho fica vazio
+#    Click Element    locator=nav-cart-count-container
+#    Element Should Contain    locator=${CARRINHO_VAZIO}    expected=Seu carrinho da Amazon está vazio
 
 
 # GHERKIN STEPS
