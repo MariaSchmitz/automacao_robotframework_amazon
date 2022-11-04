@@ -60,8 +60,8 @@ Verificar se o produto "Console Xbox Series S" foi adicionado com sucesso
     Element Should Be Visible    locator=activeCartViewForm 
 
 Remover o produto "Console Xbox Series S" do carrinho
-    Click Element    locator=//*[@id="a-autoid-4"]
-    #Click Element    locator=quantity_0
+    Double Click Element    locator=delete
+#    Click Button    locator=quantity_0
 #Verificar se o carrinho fica vazio
 #    Click Element    locator=nav-cart-count-container
 #    Element Should Contain    locator=${CARRINHO_VAZIO}    expected=Seu carrinho da Amazon está vazio
